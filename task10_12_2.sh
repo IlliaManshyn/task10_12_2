@@ -1,12 +1,20 @@
 #!bin/bash
 
+
+apt-get update
+apt-get install curl -y
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+apt-get update
+apt-get install docker-ce -y
+apt-get install docker-compose
 dir="$(cd "$(dirname "$0")" && pwd)"
 
 mkdir $dir/etc
 export $(grep -v '#' $dir/config)
 
-envsubst < tmp/docker-compose.yml > $dir/docker-compose.yml
-envsubst < tmp/nginx.conf > $dir/etc/nginx.conf
+envsubst < $dir/tmp/docker-compose.yml > $dir/docker-compose.yml
+envsubst < $dir/tmp/nginx.conf > $dir/etc/nginx.conf
 mkdir -p ${NGINX_LOG_DIR}
 mkdir $dir/certs
 cd $dir/certs
@@ -22,5 +30,5 @@ openssl x509 -req \
  -in nginx.web.csr -CA root-ca.crt\
  -CAkey privateCA.key -CAcreateserial -out web.crt
 cat $dir/certs/web.crt $dir/certs/root-ca.crt > $dir/certs/web.pem
-
+cd $dir/
 docker-compose up -d
