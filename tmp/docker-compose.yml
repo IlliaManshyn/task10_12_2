@@ -3,7 +3,7 @@ services:
  nginx:
   image: ${NGINX_IMAGE}
   ports:
-   - ${NGINX_PORT}:443
+   - ${EXTERNAL_IP}:${NGINX_PORT}:443
   links:
    - apache
   volumes:
