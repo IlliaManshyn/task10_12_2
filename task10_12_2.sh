@@ -7,7 +7,7 @@ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
 apt-get update
 apt-get install docker-ce -y
-apt-get install docker-compose
+apt-get install docker-compose -y
 dir="$(cd "$(dirname "$0")" && pwd)"
 
 mkdir $dir/etc
